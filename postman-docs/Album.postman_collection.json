@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "86980644-06f1-4c14-bc1f-f4e8fc001435",
+		"name": "Album",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"health"
+					]
+				},
+				"description": "**Example Response Object**\n\n```json\n{\n    \"message\": \"OK\"\n}\n```\n\n"
+			},
+			"response": []
+		},
+		{
+			"name": "List Photos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"skip\": 0,\n    \"limit\": 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/photos/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"photos",
+						"list"
+					]
+				},
+				"description": "Returns the list of photos.\n\n**Example Response Object**\n\n```json\n{\n    \"message\": \"OK\",\n    \"documents\": [\n        {\n            \"id\": \"fef20926dc1b6ec6dd8f17acaa7a5ad9\",\n            \"album\": \"Nature\",\n            \"name\": \"road-1072823_1280.jpg\",\n            \"path\": \"/albums/Nature/road-1072823_1280.jpg\",\n            \"raw\": \"http://localhost:8888/photos/nature/road-1072823_1280.jpg\"\n        },\n        {\n            \"id\": \"f4d11f680804c766edbb1f83867b3f34\",\n            \"album\": \"Food\",\n            \"name\": \"food-1932466_1280.jpg\",\n            \"path\": \"/albums/Food/food-1932466_1280.jpg\",\n            \"raw\": \"http://localhost:8888/photos/food/food-1932466_1280.jpg\"\n        },\n        {\n            \"id\": \"e0f684f32e8252e5d0296998deb11c3b\",\n            \"album\": \"Travel\",\n            \"name\": \"japan-2014618_1280.jpg\",\n            \"path\": \"/albums/Travel/japan-2014618_1280.jpg\",\n            \"raw\": \"http://localhost:8888/photos/travel/japan-2014618_1280.jpg\"\n        },\n        {\n            \"id\": \"d1be8d58bd74ab9a5ce065b79a81f526\",\n            \"album\": \"Nature\",\n            \"name\": \"forest-3119826_1280.webp\",\n            \"path\": \"/albums/Nature/forest-3119826_1280.webp\",\n            \"raw\": \"http://localhost:8888/photos/nature/forest-3119826_1280.webp\"\n        },\n        {\n            \"id\": \"d087db08da2a8cb391a6106c817c465f\",\n            \"album\": \"Other\",\n            \"name\": \"taxi-cab-381233_1280.jpg\",\n            \"path\": \"/albums/Other/taxi-cab-381233_1280.jpg\",\n            \"raw\": \"http://localhost:8888/photos/other/taxi-cab-381233_1280.jpg\"\n        }\n    ],\n    \"count\": 50,\n    \"skip\": 0,\n    \"limit\": 5\n}\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Upload",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "13ffde0c-77a8-4538-95bc-b5c93be19689",
+						"exec": [
+							"{",
+							"    const response = pm.response.json();",
+							"",
+							"    if (response) {",
+							"        const { data } = response || {};",
+							"        const document = (data || [])[0] || {};",
+							"",
+							"        if (document && document.name) {",
+							"            pm.environment.set(\"Album\", document.album);",
+							"            pm.environment.set(\"FileName\", document.name);",
+							"        }",
+							"    }",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "album",
+							"value": "Personal",
+							"type": "text"
+						},
+						{
+							"key": "documents",
+							"type": "file",
+							"src": [
+								"/Users/biod/Desktop/profiles/15.png",
+								"/Users/biod/Desktop/profiles/14.png",
+								"/Users/biod/Desktop/profiles/13.png",
+								"/Users/biod/Desktop/profiles/12.png",
+								"/Users/biod/Desktop/profiles/11.png",
+								"/Users/biod/Desktop/profiles/10.png",
+								"/Users/biod/Desktop/profiles/9.png",
+								"/Users/biod/Desktop/profiles/8.png",
+								"/Users/biod/Desktop/profiles/7.png",
+								"/Users/biod/Desktop/profiles/6.png",
+								"/Users/biod/Desktop/profiles/5.png",
+								"/Users/biod/Desktop/profiles/4.png",
+								"/Users/biod/Desktop/profiles/3.png",
+								"/Users/biod/Desktop/profiles/2.png",
+								"/Users/biod/Desktop/profiles/1.png"
+							]
+						}
+					],
+					"options": {
+						"formdata": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/photos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"photos"
+					]
+				},
+				"description": "Enables multiple file uploads.\n\n**Example Response Object**\n\n```json\n{\n    \"message\": \"OK\",\n    \"data\": [\n        {\n            \"album\": \"Personal\",\n            \"name\": \"15.png\",\n            \"path\": \"/albums/personal/15.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/15.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"14.png\",\n            \"path\": \"/albums/personal/14.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/14.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"13.png\",\n            \"path\": \"/albums/personal/13.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/13.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"12.png\",\n            \"path\": \"/albums/personal/12.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/12.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"11.png\",\n            \"path\": \"/albums/personal/11.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/11.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"10.png\",\n            \"path\": \"/albums/personal/10.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/10.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"9.png\",\n            \"path\": \"/albums/personal/9.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/9.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"8.png\",\n            \"path\": \"/albums/personal/8.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/8.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"7.png\",\n            \"path\": \"/albums/personal/7.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/7.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"6.png\",\n            \"path\": \"/albums/personal/6.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/6.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"5.png\",\n            \"path\": \"/albums/personal/5.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/5.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"4.png\",\n            \"path\": \"/albums/personal/4.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/4.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"3.png\",\n            \"path\": \"/albums/personal/3.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/3.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"2.png\",\n            \"path\": \"/albums/personal/2.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/2.png\"\n        },\n        {\n            \"album\": \"Personal\",\n            \"name\": \"1.png\",\n            \"path\": \"/albums/personal/1.png\",\n            \"raw\": \"http://localhost:8888/photos/personal/1.png\"\n        }\n    ]\n}\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Delele Photo",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8888/photos/{{Album}}/{{FileName}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"photos",
+						"{{Album}}",
+						"{{FileName}}"
+					]
+				},
+				"description": "Delete a photo on an album.\n\n\n**Example Response Object**\n\n```json\n{\n    \"message\": \"OK\"\n}\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Read File",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/photos/{{Album}}/{{FileName}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"photos",
+						"{{Album}}",
+						"{{FileName}}"
+					]
+				},
+				"description": "Reads a photo on an album.\n\n\n\n**Example Response Object**\n\nThe response is a raw image/file response."
+			},
+			"response": []
+		},
+		{
+			"name": "Delele Photos",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n  \"album\": \"Personal\",\n  \"documents\": \"1.png, 2.png\"\n},\n{\n  \"album\": \"Other\",\n  \"documents\": \"3.png\"\n}\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8888/photos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"photos"
+					]
+				},
+				"description": "Deletes multiple files.\n\n\n**Example Response Object**\n\n```json\n{\n    \"message\": \"OK\"\n}\n```"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
